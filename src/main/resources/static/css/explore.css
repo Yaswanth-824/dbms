@@ -1,0 +1,124 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f3f4f6;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.explore-container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Title Styling */
+.destination-title {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    text-align: left;
+    margin-bottom: 20px;
+    font-weight: 700;
+    border-bottom: 2px solid #2980b9;
+    padding-bottom: 10px;
+}
+
+/* Gallery Section */
+.gallery {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+}
+
+.thumbnail {
+    flex: 1 1 30%;
+    max-width: 100px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.thumbnail:hover {
+    transform: scale(1.1);
+}
+
+/* Info Section */
+.info-section {
+    margin-top: 20px;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #e74c3c;
+    padding-bottom: 5px;
+    font-weight: 600;
+}
+
+.description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Details List */
+.details-list {
+    list-style: none;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.details-list li {
+    margin-bottom: 8px;
+}
+
+.details-list strong {
+    color: #e74c3c;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .gallery {
+        flex-direction: column;
+    }
+
+    .thumbnails {
+        justify-content: center;
+    }
+
+    .info-section {
+        text-align: center;
+    }
+
+    .section-title, .destination-title {
+        text-align: center;
+    }
+}

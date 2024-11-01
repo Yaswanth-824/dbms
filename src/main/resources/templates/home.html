@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hotel Details</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+    <h1>Hotel Details</h1>
+
+    <div th:if="${hotel}">
+        <table>
+            <tr>
+                <th>Hotel ID</th>
+                <th>Hotel Name</th>
+                <th>Phone Number</th>
+                <th>Location</th>
+            </tr>
+            <tr th:each="hotelItem : ${hotel}">
+                <td th:text="${hotelItem.hid}"></td>
+                <td th:text="${hotelItem.hname}"></td>
+                <td th:text="${hotelItem.hphn}"></td>
+                <td th:text="${hotelItem.hlocation}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div th:if="${hotel == null}">
+        <p>No hotels found for this location.</p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Room Booking</title>
+    <style>
+        /* Overall Body Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Styling */
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+            font-weight: 700;
+            margin-top: 20px;
+        }
+
+        /* Container Styling */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Paragraph Styling */
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: #ecf0f1;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #34495e;
+            color: white;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #e3e8ee;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Button Styling */
+        button {
+            background-color: #1abc9c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #16a085;
+        }
+
+        /* Input Styling */
+        input[type="number"], input[type="date"] {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 150px;
+            font-size: 14px;
+        }
+
+        /* Form Alignment */
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* No Rooms Styling */
+        .no-rooms {
+            text-align: center;
+            font-size: 18px;
+            color: #e74c3c;
+        }
+
+        /* Subtle Animations */
+        table th, table td, button, input {
+            animation: fadeInUp 0.4s ease-in-out;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <script>
+        function validateDate(input) {
+            const selectedDate = new Date(input.value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Set time to midnight for comparison
+            const twoMonthsFromNow = new Date();
+            twoMonthsFromNow.setMonth(today.getMonth() + 2);
+            twoMonthsFromNow.setHours(0, 0, 0, 0); // Set time to midnight for comparison
+
+            if (selectedDate < today) {
+                alert("Start date must be today or later.");
+                input.value = "";
+                return false;
+            } else if (selectedDate > twoMonthsFromNow) {
+                alert("Start date cannot be more than two months from today.");
+                input.value = "";
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Room Booking</h1>
+
+        <!-- Display total rooms available -->
+        <div th:if="${rooms}">
+            <p>Total Rooms Available: <strong th:text="${#lists.size(rooms)}"></strong></p>
+
+            <!-- List of available rooms -->
+            <div th:if="${not #lists.isEmpty(rooms)}">
+                <h2>Available Rooms</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Room ID</th>
+                            <th>Hotel ID</th>
+                            <th>Room Type</th>
+                            <th>Status</th>
+                            <th>Price (USD)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="room : ${rooms}">
+                            <td th:text="${room.RoomId}"></td>
+                            <td th:text="${room.Hid}"></td>
+                            <td th:text="${room.Rtype}"></td>
+                            <td th:text="${room.Rstatus}"></td>
+                            <td th:text="${room.Rprice}"></td>
+                            <td>
+                                <form th:action="@{/Booking/{placeId}/{hid}/{rid}/transport(placeId=${placeId},hid=${room.Hid},rid = ${room.RoomId})}" 
+                                    method="post" 
+                                    th:object="${roomBooking}" 
+                                    onsubmit="return validateDate(this.startDate)">
+
+                                    
+                                    <input type="hidden" name="startDate" th:value='${startDate}'/> 
+                                    <button type="submit">Book Now</button>
+                                </form>
+
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- No rooms available -->
+        <div th:if="${#lists.isEmpty(rooms)}" class="no-rooms">
+            <p>No available rooms found.</p>
+        </div>
+    </div>
+</body>
+</html>

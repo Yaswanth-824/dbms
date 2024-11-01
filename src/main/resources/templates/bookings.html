@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Bookings</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background for contrast */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">All Bookings</h1>
+        
+        <table class="table table-striped mt-4">
+            <thead>
+                <tr>
+                    <th scope="col">Booking ID</th>
+                    <th scope="col">Place ID</th>
+                    <th scope="col">Actions</th> <!-- Added actions column -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="booking : ${data}">
+                    <td th:text="${booking.bid}"></td>
+                    <td th:text="${booking.placeId}"></td>
+                    <td>
+                        <!-- Button for writing a review -->
+                        <a th:href="@{/Booking/Addreview/{placeId}(placeId=${booking.placeId})}" class="btn btn-primary">Write Review</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

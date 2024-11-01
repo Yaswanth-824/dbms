@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Profile</title>
+    <link rel="stylesheet" th:href="@{/css/update.css}">
+    <script>
+        function enableEdit(inputId, iconId, formId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            const form = document.getElementById(formId);
+            
+            if (input.readOnly) {
+                input.readOnly = false;
+                input.classList.add("editable");
+                icon.classList.remove("fa-pencil-alt");
+                icon.classList.add("fa-check");
+            } else {
+                input.readOnly = true;
+                input.classList.remove("editable");
+                icon.classList.remove("fa-check");
+                icon.classList.add("fa-pencil-alt");
+                form.submit();  // Submit the form dynamically
+            }
+        }
+    </script>
+    <script>
+        function validatePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+    
+            // Validate that new password is not the same as the current password
+            if (currentPassword === newPassword) {
+                alert('New password cannot be the same as the current password. Please choose a different password.');
+                return false; // Prevent form submission
+            }
+    
+            // Validate that new password matches confirm password
+            if (newPassword !== confirmPassword) {
+                alert('New password and confirm password do not match. Please try again.');
+                return false; // Prevent form submission
+            }
+    
+            return true; // Allow form submission
+        }
+    
+        function togglePasswordVisibility(passwordFieldId, checkboxId) {
+            const passwordField = document.getElementById(passwordFieldId);
+            const checkbox = document.getElementById(checkboxId);
+    
+            // Toggle the password field type between text and password
+            if (checkbox.checked) {
+                passwordField.type = 'text'; // Show password
+            } else {
+                passwordField.type = 'password'; // Hide password
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1>Update Profile</h1>
+
+    <!-- Display success message -->
+    <div th:if="${success}">
+        <p th:text="${success}"></p>
+    </div>
+    <form th:action="@{/profile/updatePhoto}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="profilePhoto">Profile Photo</label>
+            <!-- Current Profile Photo Preview -->
+            <img th:src="@{/uploads/profiles/{filename}(filename=${detail.profilePhoto})}" alt="Profile Photo" id="profilePhotoPreview" class="profile-photo-preview" />
+            <input type="file" name="profilePhotoFile" id="profilePhotoFile" onchange="previewImage()" />
+            <input type= "hidden" name = "profilePhoto" id = "profilePhoto" th:value = "${detail.profilePhoto}"/>
+        </div>
+        <button type="submit">Update Photo</button>
+    </form>
+    <!-- Username - Static Field -->
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" th:value="${detail.username}" th:attr="name='username'" id="username" readonly/>
+    </div>
+
+    <!-- First Name - Editable Field -->
+    <form th:action="@{/profile/fname}" th:object="${user}" method="post" id="formFname">
+        <div class="form-group">
+            <label for="fname">First Name</label>
+            <input type="text" th:value="${detail.fname}" th:attr="name='fname'" id="fname" readonly/>
+            <i class="fas fa-pencil-alt edit-icon" id="editFname" onclick="enableEdit('fname', 'editFname', 'formFname')"></i>
+        </div>
+    </form>
+
+    <!-- Last Name - Editable Field -->
+    <form th:action="@{/profile/lname}" th:object="${user}" method="post" id="formLname">
+        <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input type="text" th:value="${detail.lname}" name='lname' id="lname" readonly/>
+            <i class="fas fa-pencil-alt edit-icon" id="editLname" onclick="enableEdit('lname', 'editLname', 'formLname')"></i>
+        </div>
+    </form>
+
+    <!-- Email ID - Editable Field -->
+    <form th:action="@{/profile/emailId}" method="post" id="formEmailId">
+        <div class="form-group">
+            <label for="emailId">Email ID</label>
+            <input type="email" th:value="${detail.emailId}" name='emailId' id="emailId" readonly/>
+            <i class="fas fa-pencil-alt edit-icon" id="editEmailId" onclick="enableEdit('emailId', 'editEmailId', 'formEmailId')"></i>
+        </div>
+    </form>
+
+    <!-- Date of Birth - Editable Field -->
+    <form th:action="@{/profile/dob}"  method="post" id="formDob">
+        <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" th:value="${detail.dob}"name='dob' id="dob" readonly/>
+            <i class="fas fa-pencil-alt edit-icon" id="editDob" onclick="enableEdit('dob', 'editDob', 'formDob')"></i>
+        </div>
+    </form>
+
+    <!-- Phone Number - Editable Field -->
+    <form th:action="@{/profile/phoneNumber}" method="post" id="formPhoneNumber">
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input type="text" th:value="${detail.phoneNumber}" name='phoneNumber' id="phoneNumber" readonly/>
+            <i class="fas fa-pencil-alt edit-icon" id="editPhoneNumber" onclick="enableEdit('phoneNumber', 'editPhoneNumber', 'formPhoneNumber')"></i>
+        </div>
+    </form>
+    <form th:action="@{/profile/updatePassword}" method="post" id="updatePasswordForm" onsubmit="return validatePassword();">
+        <div class="form-group">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" th:name="currentPassword" id="currentPassword" required />
+            <input type="checkbox" id="showCurrentPassword" onclick="togglePasswordVisibility('currentPassword', 'showCurrentPassword')">
+            <label for="showCurrentPassword">Show Password</label>
+        </div>
+    
+        <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" th:name="newPassword" id="newPassword" required />
+            <input type="checkbox" id="showNewPassword" onclick="togglePasswordVisibility('newPassword', 'showNewPassword')">
+            <label for="showNewPassword">Show Password</label>
+        </div>
+    
+        <div class="form-group">
+            <label for="confirmPassword">Confirm New Password</label>
+            <input type="password" th:name="confirmPassword" id="confirmPassword" required />
+            <input type="checkbox" id="showConfirmPassword" onclick="togglePasswordVisibility('confirmPassword', 'showConfirmPassword')">
+            <label for="showConfirmPassword">Show Password</label>
+        </div>
+    
+        <button type="submit">Update Password</button>
+    </form>
+    
+
+    <!-- Final Update Button (Optional) -->
+    <div>
+        <button type="button" onclick="document.getElementById('formFname').submit(); document.getElementById('formLname').submit(); document.getElementById('formEmailId').submit(); document.getElementById('formDob').submit(); document.getElementById('formPhoneNumber').submit();">Update All</button>
+    </div>
+
+</body>
+</html>

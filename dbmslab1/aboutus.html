@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to your CSS file -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #ebe8e8;
+        }
+
+        header {
+            background-color: #225166;
+            color: rgb(252, 254, 254);
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(29, 28, 28, 0.473);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #fbf70a;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 3em;
+            text-align: center;
+        }
+        .oki{
+            padding-left:20px;
+            font-family: 'Comic sans MS', cursive,sans-serif;
+        }
+        .about-content, .team-members, .mission {
+            margin-bottom: 40px;
+        }
+
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .team-member {
+            width: 200px;
+            text-align: center;
+            margin: 20px;
+            font-family: 'Papyrus', fantasy;
+        }
+
+        .team-member img {
+            width: 100%;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .team-member h3 {
+            margin: 10px 0;
+            font-size: 20px;
+        }
+
+        .team-member p {
+            font-size: 14px;
+            color: #fbf9f9;
+        }
+
+        .mission p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 20px 0;
+            font-family: 'Comic sans MS', cursive,sans-serif;
+            font-size: 1.5em;
+
+        }
+        footer {
+    background-color: rgba(25, 55, 200, 0.1);
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.about-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background: #232222d7;
+    color: #ca84ed;
+    /* opacity:0.7; */
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: bounceIn 1s ease-out;
+  }
+  
+  .about-link:hover {
+    background-color: #b38ac7;
+    color: #fff;
+  }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>About Us</h1>
+    </header>
+
+    <div class="container">
+        <div class="about-content">
+            <h2 class="section-title">Who We Are</h2>
+            <h2 class="oki">    We are a group of 5 members joined to form a group for the DBMS project in 5th Semester.This wesite is built using only html and css by 5 of us.</h2>
+        </div>
+        <h2 class="section-title">Meet Our Team</h2>
+        <br>
+        <div class="team-members">
+            
+
+            <div class="team-member">
+                <img src="images/2.jpg" alt=" YASWANTH ">
+                <h3> YASWANTH </h3>
+                <p>22075056-CSE-BTECH</p>
+            </div>
+            <div class="team-member">
+                <img src="images/1.jpg" alt="AMARNATH">
+                <h3>AMARNATH</h3>
+                <p>22075019-CSE-BTECH</p>
+            </div>
+            <div class="team-member">
+                <img src="images/3.jpg" alt="AMSHULA">
+                <h3>AMSHULA</h3>
+                <p>22074031-CSE-IDD</p>
+            </div>
+            <div class="team-member">
+                <img src="images/5.jpg" alt="BASHWANTH">
+                <h3>BASHWANTH</h3>
+                <p>22075039-CSE-BTECH</p>
+            </div>
+            <div class="team-member">
+                <img src="images/4.jpg" alt="PRAGNITHA">
+                <h3>PRAGNITHA</h3>
+                <p>22075080-CSE-BTECH</p>
+            </div>
+          
+        </div>
+
+        <div class="mission">
+            <h2 class="section-title">Our Mission</h2>
+            <p>Our mission is to provide exceptional service and to follow through on our promises. We aim to deliver
+              perfect trip plans  to all our client's to make them happy.</p>
+        </div>
+    </div>
+
+    <footer>
+        <!-- <p>Thank You,Yours Welcome.</p> -->
+        <a href="index.html" class="about-link" >HOME</a>
+    </footer>
+</body>
+</html>

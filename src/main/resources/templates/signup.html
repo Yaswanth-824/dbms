@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration Page</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #6dd5ed, #2193b0);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Container for the form */
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            margin: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Heading styling */
+        h1 {
+            color: #333;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* Label styling */
+        label {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Input and select styling */
+        input[type="text"], 
+        input[type="email"], 
+        input[type="date"], 
+        input[type="password"], 
+        input[type="file"], 
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+            font-size: 14px;
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        /* Input focus effect */
+        input:focus, 
+        select:focus {
+            border-color: #2193b0;
+            box-shadow: 0 0 8px rgba(33, 147, 176, 0.3);
+            outline: none;
+        }
+
+        /* File input special styling */
+        input[type="file"] {
+            padding: 8px;
+        }
+
+        /* Button styling */
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #ff6a00, #ee0979);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+
+        /* Button hover effect */
+        button:hover {
+            background: linear-gradient(90deg, #ee0979, #ff6a00);
+            transform: scale(1.05);
+        }
+
+        /* Responsive form layout */
+        @media (max-width: 768px) {
+            form {
+                width: 90%;
+            }
+        }
+
+        /* Additional small styling */
+        input[type="text"]::placeholder, 
+        input[type="email"]::placeholder, 
+        input[type="password"]::placeholder, 
+        input[type="date"]::placeholder {
+            font-style: italic;
+            color: #bbb;
+        }
+
+        select {
+            background-color: #f9f9f9;
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Sign Up</h1>
+
+    <form th:action="@{/register}" th:object="${user}" method="post" enctype="multipart/form-data">
+        <label for="username">Username:</label>
+        <input type="text" id="username" th:field="*{username}" /><br>
+
+        <label for="emailId">Email:</label>
+        <input type="email" id="emailId" th:field="*{emailId}" /><br>
+
+        <label for="fname">First Name:</label>
+        <input type="text" id="fname" th:field="*{fname}" /><br>
+
+        <label for="lname">Last Name:</label>
+        <input type="text" id="lname" th:field="*{lname}" /><br>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" th:field="*{gender}">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">preferbly not say</option>
+        </select><br>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" th:field="*{dob}" /><br>
+
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" th:field="*{phoneNumber}" /><br>
+
+        <label for="profilePhoto">Profile Photo:</label>
+        <input type="file" id="profilePhoto" th:field="*{profilePhotoFile}" /><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" th:field="*{password}" /><br>
+
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>

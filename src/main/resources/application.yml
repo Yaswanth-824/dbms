@@ -1,0 +1,40 @@
+# To Change Port
+server:
+  port: 2024
+# To Connect with DataBase
+spring:
+    datasource :
+        username : root
+        password : Lab@2024
+        url: jdbc:mysql://localhost:3306/Travel?createDatabaseIfNotExist=true
+    servlet :
+      multipart :
+        enabled : true
+        max-file-size : 10MB
+        max-request-size : 10MB
+    security :
+      user :
+        name : user
+        password : 1234
+    # to directly Create a Table and Populate a Table
+    sql:
+      init :
+        mode : always
+    # web :
+    #   resources : 
+    #     static-locations : classpath:/uplaods/
+
+# to add log into log file
+    main:
+      allow-bean-definition-overriding: true
+file:
+  upload-dir: ./src/main/resources/uploads
+
+logging:
+  file:
+    name: myLog/log.log
+  level :
+    org :
+      springframework:
+        security : DEBUG
+

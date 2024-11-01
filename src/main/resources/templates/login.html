@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Login - Travel and Tourism - Trip Planner</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff7e5f;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #ff7e5f;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background: #ff7e5f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #feb47b;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .logout-message {
+            color: green;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <div th:if="${param.error}" class="error-message">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}" class="logout-message">
+            You have been logged out.
+        </div>
+        <form th:action="@{/login}" method="post">
+            <div>
+                <label>User Name:</label>
+                <input type="text" name="username" required />
+            </div>
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password" required />
+            </div>
+            <div>
+                <input type="submit" value="Sign In" />
+            </div>
+        </form>
+    </div>
+</body>
+</html>

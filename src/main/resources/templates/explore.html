@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Destination</title>
+    <link rel="stylesheet" href="/css/explore.css"> <!-- Link to CSS file -->
+</head>
+<body>
+    <div class="explore-container">
+        <!-- Destination Title -->
+        <h1 class="destination-title" th:text="${data.title}">Destination Title</h1>
+
+        <!-- Image Gallery Section -->
+        <div class="gallery">
+            
+            <div class="thumbnails">
+                <div class="thumbnail" th:each="image : ${data.images}">
+                    <img th:src="@{/uploads/places/{filename}(filename=${image.imgPath})}" alt="Thumbnail Image" class="thumbnail-img">
+                </div>
+            </div>
+        </div>
+
+        <!-- Details Section -->
+        <div class="info-section">
+            <h2 class="section-title">Description</h2>
+            <p class="description" th:text="${data.description}">Description of the destination...</p>
+            
+            <h2 class="section-title">Details</h2>
+            <ul class="details-list">
+                <li><strong>Total Cost:</strong> $<span th:text="${data.totalCost}">Total Cost</span></li>
+                <li><strong>Duration:</strong> <span th:text="${data.Days}">Number of Days</span> days</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

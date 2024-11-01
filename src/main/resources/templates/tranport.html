@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Transport Options</title>
+    <link rel="stylesheet" type="text/css" href="/css/transport.css">
+</head>
+<body>
+    <header>
+        <h1>Available Transport Options</h1>
+    </header>
+
+    <section class="content">
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" id="searchTransport" placeholder="Search by Transport Type or Operator Name" />
+            <button type="button" onclick="searchTransport()">Search</button>
+        </div>
+
+        <div th:if="${tranports != null}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Operator Name</th>
+                        <th>Contact Number</th>
+                        <th>Vehicle Number</th>
+                        <th>Cost Per Day</th>
+                        <th>Transport Type</th>
+                        <th>Availability Status</th>
+                        <th>Action</th> <!-- New column for actions -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="transport : ${tranports}">
+                        <td th:text="${transport.operatorName}">Operator Name</td>
+                        <td th:text="${transport.contactNumber}">Contact Number</td>
+                        <td th:text="${transport.vehicleNumber}">Vehicle Number</td>
+                        <td th:text="${transport.costPerDay}">Cost Per Day</td>
+                        <td th:text="${transport.transportTypeName}">Transport Type</td>
+                        <td th:text="${transport.Ostatus}">Availability Status</td>
+                        <td>
+                            <form th:action="@{/Booking/{placeId}/{hid}/{rid}/{Id}/payment/pay(placeId=${placeId},hid=${hid},rid = ${rid},Id=${transport.operatorId})}" 
+                            method="get" 
+                            th:object="${roomBooking}" 
+                            onsubmit="return validateDate(this.startDate)"> 
+                            <input type="hidden" th:value="${startDate}" name='startDate'/>   
+
+                            <button type="submit">Book Now</button>
+                        </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${tranports == null || #lists.isEmpty(ways)}" class="no-transport">
+            <p>No transport options available for the selected place.</p>
+        </div>
+
+        <div class="back-button">
+            <a href="/Booking" class="about-link">HOME</a>
+        </div>
+    </section>
+
+    <script>
+        function searchTransport() {
+            const searchValue = document.getElementById('searchTransport').value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const operatorName = row.cells[0].textContent.toLowerCase(); // Assuming operator name is in the 1st column
+                const transportType = row.cells[4].textContent.toLowerCase(); // Assuming transport type is in the 5th column
+                const costno = row.cells[3].textContent.toLowerCase();
+                // Check if either operator name or transport type includes the search value
+                row.style.display = operatorName.includes(searchValue) || transportType.includes(searchValue) || costno.includes(searchValue) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

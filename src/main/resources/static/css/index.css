@@ -1,0 +1,343 @@
+/* General Styles */
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  color: #ffcc00;
+  background: url('images/im1.jpg');
+}
+
+header {
+  position: relative;
+  padding: 80px 20px; 
+  text-align: center;
+  color: #333;
+  font-size: 2.5em;
+  font-weight: bold;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: #ffcc00;
+  background: url('images/im1.jpg') no-repeat center center;
+  background-size: cover;
+  z-index: 1;
+  opacity: 0.5;
+  animation: fadeInOut 4s infinite; 
+}
+
+.trie {
+  color: white;
+}
+
+header h1 {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  animation: textPop 2s infinite; 
+  padding: 10px;
+  border: 3px solid #ffcc00;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.3); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+header h1::before, header h1::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  background: #ffcc00;
+  z-index: -1;
+  animation: borderSlide 4s infinite;
+}
+
+header h1::before {
+  top: -10px; 
+  left: 0;
+}
+
+header h1::after {
+  bottom: -10px; 
+  left: 0;
+}
+
+.button {
+  display: inline-block;
+  padding: 12px 24px;
+  margin-top: 20px;
+  background-color: #ffcc00;
+  color: #333;
+  text-decoration: none;
+  font-size: 1.2em;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.3s;
+  z-index: 2;
+  position: relative;
+  cursor: pointer;
+  animation: buttonPulse 2s infinite; 
+}
+
+.button:hover {
+  background-color: #e6b800;
+  transform: scale(1.05);
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+@keyframes textPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes buttonPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes borderSlide {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0 0;
+  position: relative;
+  z-index: 2;
+  display: flex; /* Add this to align items horizontally */
+  align-items: center; /* Center items vertically */
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 15px;
+  size: 200px;
+}
+
+nav ul li a {
+  color: #dbee7e;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s ease-in-out;
+  padding: 10px 20px; 
+  background-color: #333; 
+  border-radius: 100px; 
+  border: 1px solid #dbee7e; 
+  display: inline-block; 
+}
+
+nav ul li a:hover {
+  color: #fff; 
+  background-color: #861059; 
+}
+
+.search-container {
+  display: flex; /* Add this to align search bar and button */
+  align-items: center; /* Center items vertically */
+}
+
+.search-bar {
+  padding: 10px;
+  border: 1px solid #dbee7e;
+  border-radius: 5px;
+  margin-left: 10px; /* Spacing from the Home button */
+  background-color: #333;
+  color: #ffcc00;
+  font-size: 1rem;
+}
+
+.search-button {
+  padding: 10px 20px;
+  margin-left: 10px; /* Spacing from the search bar */
+  background-color: #ffcc00;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #e6b800;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 0 10px;
+  gap: 20px;
+}
+
+.posts {
+  flex: 3;
+}
+
+article {
+  background: #ffffffb4;
+  padding-bottom: 0px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+article:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+article img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+article h2 {
+  margin-top: 0px;
+  margin-bottom: 5px;
+  font-size: 60px;
+  color: #8e6b33;
+  font-family: 'comic sans MS', cursive;
+}
+
+.post-date {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.trip-info {
+  position: relative;
+  padding: 20px;
+  background: #f9f9f917;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.trip-info p {
+  margin: 0; /* Remove margin between paragraphs */
+}
+
+.trip-info .tempi {
+  margin: 5px 0; 
+  color:red;
+  font-size: medium;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.trip-info .tempit {
+  color: #0c222b;
+  font-family:'Brush Script MT', cursive;
+  font-size:xx-large;
+}
+
+.book-now {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #444343;
+  color: #fbfbfb;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  position: absolute;
+  right: 20px; 
+  bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.book-now:hover {
+  background-color:rgb(113, 113, 99); 
+}
+
+.read-more {
+  display: block;
+  margin: 10px 0; 
+}
+
+.read-more:hover {
+  border-bottom-color: #007bff;
+}
+
+aside {
+  flex: 1;
+  background: #05050559;
+  padding-left: 60px;
+  padding-right: 40px;
+  margin-left: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position:sticky;
+  top: 20px;
+  height: fit-content;
+  width: 350px; 
+  transition: box-shadow 0.3s ease, width 0.3s ease; 
+}
+
+aside.expanded {
+  width: 450px; 
+}
+
+aside:hover {
+  box-shadow: 12px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+aside h2 {
+  margin-top: 0;
+  color: #fbf70a;
+  font-family: 'Brush Script MT', cursive;
+  font-size: 2em;
+}
+
+aside ul {
+  list-style: none;
+  padding: 0;
+}
+
+aside ul li {
+  margin-bottom: 10px;
+}
+
+aside ul li a {
+  text-decoration: none;
+  color: #fffdfd;
+  transition: color 0.3s;
+}
+
+aside ul li a:hover {
+  color: #ffcc00;
+}
+
+footer {
+  background: #444;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+footer p {
+  margin: 0;
+}

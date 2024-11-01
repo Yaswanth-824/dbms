@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRIP PLANNER</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <header>
+        <h1>TRIP PLANNER</h1>
+        <nav>
+            <ul>
+                <li><a href="/">HOME</a></li>
+                <li><a href="/place">place</a></li>
+                <li><a href="/about-us">about-us</a></li>
+                
+                <!-- Conditionally display Login if not authenticated, Profile and Logout if authenticated -->
+                <li th:if="${check == null}">
+                    <a href="/login">Login</a>
+                </li>
+                <li th:if="${check != null}">
+                    <a href="/profile">Profile</a>
+                </li>
+                <li th:if="${check != null}">
+                    <a href="/Booking">Booking</a>
+                </li>
+                <li th:if="${check != null}">
+                    <a href="/logout">logout</a>
+                </li>
+                <li>
+                    <form action="/" method="get" class="search-form">
+                        <input type="text" name="query" placeholder="Search..." class="search-input" required>
+                        <button type="submit" class="search-button">Search</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="posts">
+            <h2>Available Trips</h2>
+            <!-- Thymeleaf loop to display travel data -->
+            <div th:each="place : ${places}">
+                <article>
+                    <div class="trip-info">
+                        <h2 th:text="${place.title}">Trip Title</h2>
+                        <p class="tempit">Top Places in Trip:</p>
+                        <p class="tempi" th:text="${place.description}">Top Places</p>
+                        <p class="tempit">Best Time For Trip:</p>
+                        <p class="tempi" th:text="${place.totalCost}">Best Time</p>
+                        <p class="tempit">Interests Covered In Trip:</p>
+                        <p class="tempi" th:text="${place.Days}">Interests</p>
+                        <a th:href="@{/place/{placeId}(placeId=${place.placeId})}" class="book-now">To Explore</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+        <aside>
+            <h2>World's Best Tourist Planning Platform</h2>
+            <h3 class="trie">We are the most trusted tourist planning website in the world. We have already completed 1000+ tours,
+               we have a 4.9-star rating, and a trustworthy platform.
+            </h3>
+            <h2>Categories of Trips We Plan:</h2>
+            <ul>
+                <li><a href="#">->Family Vacation Trips</a></li>
+                <li><a href="#">->Common Vacation Trips</a></li>
+                <li><a href="#">->Honeymoon/Marriage Trips</a></li>
+            </ul>
+        </aside>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <p>CLICK ON ABOUT US TO KNOW DETAILS OF OUR GROUP MEMBERS FOR DBMS</p>
+        <a href="index.html" class="about-link">HOME</a>
+      </div>
+    </footer>
+  
+</body>
+</html>
