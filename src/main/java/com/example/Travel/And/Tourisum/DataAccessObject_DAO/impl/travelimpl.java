@@ -54,6 +54,21 @@ public class travelimpl implements travel{
     }
 
     }
+    public class costMapper implements RowMapper<traveldata> {
+
+        @Override
+        public traveldata mapRow(ResultSet rs, int rowNum) throws SQLException {
+            // Create traveldata object for the current row
+            traveldata travelData = new traveldata();
+            travelData.setPlaceId(rs.getLong("placeId")); // Fetch placeId
+            travelData.setTitle(rs.getString("title"));
+            travelData.setDescription(rs.getString("description"));
+            travelData.setTotalCost(rs.getLong("cost"));
+            travelData.setDays(rs.getInt("noOfDays"));
+            return travelData;
+        }
+    
+        }
     
     public class imageMapper implements RowMapper<travelimages>{
         @Override
@@ -176,6 +191,15 @@ public class travelimpl implements travel{
             return fans;
         } catch (Exception e) {
             return new traveldata();
+        }
+    }
+    public Long getcost(Long placeId){
+        try {
+            String sql = "SELECT * FROM travelPlaces where placeId=?";
+            return jdbcTemplate.queryForObject(sql,new costMapper(),placeId).getTotalCost();
+        } catch (Exception e) {
+            System.out.println("Duplicate entry: " + e.getMessage());
+            return 0L;
         }
     }
 

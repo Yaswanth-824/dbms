@@ -37,16 +37,8 @@
             </div>
 
                 <h4>Book This Place</h4>
-                <form th:action="@{/Booking/place/{placeId}(placeId=${place.placeId})}" method="post">
-                    <input type="hidden" th:name="placeId" th:value="${place.placeId}" />
-                    <div class="form-group">
-                        <label for="status">Booking Status</label>
-                        <select id="status" name="status" class="form-control">
-                            <option value="confirmed">Confirmed</option>
-                            <option value="pending">Pending</option>
-                            <option value="canceled">Canceled</option>
-                        </select>
-                    </div>
+                <form th:action="@{/Booking/Payment/place/{placeId}(placeId=${place.placeId})}" method="get">
+                    <input type="hidden" th:name="bid" th:value="0" />
                     <button type="submit" class="btn btn-success">Confirm Booking</button>
                 </form>
     </div>

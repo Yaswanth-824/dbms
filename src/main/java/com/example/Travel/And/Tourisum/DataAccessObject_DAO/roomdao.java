@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface roomdao {
     List<Rooms> findById(Integer Hid);
-    void book(RoomBookings roombook);
+    Long book(RoomBookings roombook);
 }

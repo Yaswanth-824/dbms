@@ -185,13 +185,17 @@
                             <td th:text="${room.Rstatus}"></td>
                             <td th:text="${room.Rprice}"></td>
                             <td>
-                                <form th:action="@{/Booking/{placeId}/{hid}/{rid}/transport(placeId=${placeId},hid=${room.Hid},rid = ${room.RoomId})}" 
+                                <form th:action="@{/Booking/Payment/{bid}/room(bid=${datamodel.bid})}" 
                                     method="post" 
-                                    th:object="${roomBooking}" 
+                                    th:object="${datamodel}" 
                                     onsubmit="return validateDate(this.startDate)">
+                                    <!-- Input fields bound to the datamodel -->
+                                    <input type="hidden" th:field="*{hid}" />
+                                    <input type="hidden" th:field="*{placeId}" />
+                                    <input type="hidden" th:field="*{startDate}" />
+                                    <input type="hidden" th:field="*{bid}" />
 
-                                    
-                                    <input type="hidden" name="startDate" th:value='${startDate}'/> 
+                                    <input type="hidden" th:attr="name='rid'" th:value="${room.RoomId}" />
                                     <button type="submit">Book Now</button>
                                 </form>
 

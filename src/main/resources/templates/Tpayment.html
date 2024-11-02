@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transport Payment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #34495e;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .pay-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .pay-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Transport Payment</h1>
+        
+        
+        
+        
+        <!-- Conditional messages based on RBID value -->
+        <div th:if="${TBID == 0}">
+            <p>Proceeding with payment for Transport: <strong th:text="${transport.vehicleNumber}"></strong></p>
+            <div>
+                <h2>Transport Details</h2>
+                <table>
+                    <tr>
+                        <th>Operator Name</th>
+                        <td th:text="${transport.operatorName}"></td>
+                    </tr>
+                    <tr>
+                        <th>Contact Number</th>
+                        <td th:text="${transport.contactNumber}"></td>
+                    </tr>
+                    <tr>
+                        <th>Transport Type</th>
+                        <td th:text="${transport.transportTypeName}"></td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td th:text="${transport.Ostatus}"></td>
+                    </tr>
+                    <tr>
+                        <th>Cost Per Day</th>
+                        <td th:text="${transport.costPerDay} + ' USD'"></td>
+                    </tr>
+                    <tr>
+                        <th>Vehicle Number</th>
+                        <td th:text="${transport.vehicleNumber}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <h2>Payment Information</h2>
+                <form th:action="@{/Booking/Payment/transport/done}" th:object="${datamodel}" method="post">
+                    <input type="hidden" th:field="*{placeId}" />
+                    <input type="hidden" th:field="*{tid}" />
+                    <input type="hidden" th:attr="name='typeId'" th:value="${transport.transportTypeId}" />
+                    <input type="hidden" th:attr="name='sId'" th:value="${transport.serviceId}" />
+                    <button type="submit" class="pay-button">Proceed to Payment</button>
+                </form>
+            </div>
+        </div>
+        <div th:if="${TBID > 0}">
+            <form th:action="@{/Booking}" method="get">
+                <button type="submit">Go to the Bookings</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

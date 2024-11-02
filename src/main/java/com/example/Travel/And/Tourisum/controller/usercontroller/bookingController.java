@@ -20,6 +20,7 @@ import com.example.Travel.And.Tourisum.models.RoomBookings;
 import com.example.Travel.And.Tourisum.models.Rooms;
 // import com.example.Travel.And.Tourisum.models.Rooms;
 import com.example.Travel.And.Tourisum.models.bookings;
+import com.example.Travel.And.Tourisum.models.datamodel;
 import com.example.Travel.And.Tourisum.models.payment;
 import com.example.Travel.And.Tourisum.models.review;
 import com.example.Travel.And.Tourisum.models.transport;
@@ -31,6 +32,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -57,42 +60,43 @@ public class bookingController {
         return "bookings";
     }
     @RequestMapping("/place/{placeId}")
-    public String newBooking(@PathVariable Long placeId,Model model,@RequestParam(required = false) LocalDate startDate) {
+    public String newBooking(@PathVariable Long placeId,@RequestParam Integer bid,Model model,@RequestParam(required = false) LocalDate startDate) {
         // Long bid=bookingiml.addBooking(placeId); // booking done for that place
         List<Hotels> hotel= hotelimpl.findbyId(placeId);
         model.addAttribute("hotel", hotel);
-        model.addAttribute("bid", 0);
-        System.out.println("Generated Booking ID: " + 0);
+        model.addAttribute("bid", bid);
+        System.out.println("Generated Booking ID: " + bid);
         model.addAttribute("placeId", placeId);
         if (startDate == null) {
             startDate = LocalDate.now().plus(2, ChronoUnit.DAYS);
         }
         model.addAttribute("startDate", startDate);
+        // return "hotel";
+        // if (true) {
+        //     // Redirect to the booking page with an error message
+        //     return "redirect:/place/" + placeId + "?paymentError=true";
+        // }
         return "hotel";
     }
     @GetMapping("/{placeId}/hotel/{hid}")
-    public String hbook(@PathVariable Long placeId,Model model,@PathVariable Integer hid,@RequestParam LocalDate startDate){
+    public String hbook(@PathVariable Long placeId,Model model,@RequestParam Integer bid,@PathVariable Integer hid,@RequestParam LocalDate startDate,@ModelAttribute datamodel datamodel){
         List<Rooms> rooms = roomimpl.findById(hid);
-        model.addAttribute("rooms", rooms);          // Pass the list of rooms to the template
-        model.addAttribute("roomBooking", new RoomBookings());
-        model.addAttribute("placeId", placeId);
-        model.addAttribute("startDate", startDate);
         
+        model.addAttribute("rooms", rooms);          // Pass the list of rooms to the template
+        datamodel.setHid(hid);
+        datamodel.setPlaceId(placeId);
+        datamodel.setStartDate(startDate);
+        datamodel.setBid(bid);
+        model.addAttribute("datamodel",datamodel);
         return "room";
     }
-    @PostMapping("/{placeId}/{hid}/{rid}/transport")
-    public String transportdetails(@PathVariable Long placeId,@RequestParam LocalDate startDate,
-    @PathVariable Integer hid,@PathVariable Integer rid,Model model) {
-        // roomimpl.navailroom(rid);
-        System.out.println("Place ID: " + placeId);
-        System.out.println("Bid: " + rid);
-        System.out.println("Start Date: " + startDate);
+    @GetMapping("/{placeId}/transport")
+    public String transportdetails(@PathVariable Long placeId,datamodel datamodel,@RequestParam Integer bid,Model model) {
+        datamodel.setPlaceId(placeId);
+        datamodel.setBid(bid);
         List<transport> ans = tbookingimpl.findTransportOperatorsByPlaceId(placeId);
         model.addAttribute("tranports", ans);
-        model.addAttribute("placeId", placeId);
-        model.addAttribute("hid", hid);
-        model.addAttribute("rid", rid);
-        model.addAttribute("startDate", startDate);
+        model.addAttribute("datamodel",datamodel);
         return "tranport";
     }
     @GetMapping("/{placeId}/{hid}/{rid}/{tid}/paytment/pay")
@@ -105,7 +109,7 @@ public class bookingController {
         payment.setMode_of_payment("UPI");
         payment.setOperatorId(tid);
         payment.setPayment_date(LocalDate.now());
-        boolean success = payments.bookingProgress(placeId,startDate,payment);
+        // boolean success = payments.bookingProgress(placeId,startDate,payment);
         System.out.println("Start Date: " + startDate);
         if(true){
             return "redirect:/Booking";

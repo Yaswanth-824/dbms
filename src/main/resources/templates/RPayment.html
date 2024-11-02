@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Room Payment</title>
+    <style>
+        /* Styling similar to the provided HTML */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #34495e;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .pay-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .pay-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Room Payment</h1>
+        <p>Proceeding with payment for RBID: <strong th:text="${RBID}"></strong></p>
+
+        <!-- Display room information -->
+        <div>
+            <h2>Room Details</h2>
+            <p>Room ID: <strong th:text="${room.RoomId}"></strong></p>
+            <p>Hotel ID: <strong th:text="${room.Hid}"></strong></p>
+            <p>Room Type: <strong th:text="${room.Rtype}"></strong></p>
+            <p>Status: <strong th:text="${room.Rstatus}"></strong></p>
+            <p>Price: <strong th:text="${room.Rprice}"></strong> USD</p>
+        </div>
+
+        <div th:if="${RBID == 0}">
+            <!-- Payment form is shown only if RBID is 0 -->
+            <form th:action="@{/Booking/Payment/room/done}" th:object="${datamodel}" method="post">
+                <input type="hidden" th:field="*{hid}" />
+                <input type="hidden" th:field="*{placeId}" />
+                <input type="hidden" th:field="*{startDate}" />
+                <input type="hidden" th:field="*{bid}" />
+                <input type="hidden" th:field="*{rid}" />
+                <button type="submit">Proceed to Payment</button>
+            </form>
+        </div>
+
+        <div th:if="${RBID > 0}">
+            <p>RBID is set. Please proceed to the next step.</p>
+            <form th:action="@{/Booking/{placeId}/transport(placeId=${datamodel.placeId})}" th:object="${datamodel}" method="get">
+                <input type="hidden" th:value="${datamodel.bid}" name="bid" />
+                <button type="submit">Go to the next page</button>
+            </form>
+            <!-- Change '/otherPage' to your desired URL -->
+        </div>
+    </div>
+</body>
+</html>

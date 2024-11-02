@@ -10,10 +10,9 @@
     <div class="explore-container">
         <!-- Destination Title -->
         <h1 class="destination-title" th:text="${data.title}">Destination Title</h1>
-
+        
         <!-- Image Gallery Section -->
         <div class="gallery">
-            
             <div class="thumbnails">
                 <div class="thumbnail" th:each="image : ${data.images}">
                     <img th:src="@{/uploads/places/{filename}(filename=${image.imgPath})}" alt="Thumbnail Image" class="thumbnail-img">
@@ -32,6 +31,46 @@
                 <li><strong>Duration:</strong> <span th:text="${data.Days}">Number of Days</span> days</li>
             </ul>
         </div>
+
+        <!-- Action Buttons Section -->
+        <div class="action-buttons">
+            <div th:if="${bid == 0}">
+                <form th:action="@{/Booking/Payment/{placeId}/done(placeId=${data.placeId})}" method="post"> <!-- URL to your payment processing -->
+                    <input type="hidden" th:value="${data.placeId}" name="placeId"/>
+                    <input type="hidden" value="0" name="bid"/> <!-- Pass bid = 0 -->
+                    
+                    <!-- Date Picker with Restriction -->
+                    <input type="date" th:name="startDate" id="startDateInput" required/>
+                    
+                    <button type="submit" class="pay-button">Pay</button>
+                </form>
+            </div>
+            <div th:if="${bid > 0}">
+                <a th:href="@{/Booking/place/{placeId}?bid={bid}(placeId=${data.placeId},bid=${bid})}" class="proceed-button">Proceed to Next Step</a>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // JavaScript to set min and max dates for the startDateInput
+        document.addEventListener("DOMContentLoaded", function () {
+            const startDateInput = document.getElementById("startDateInput");
+            const today = new Date();
+            const twoMonthsLater = new Date();
+            twoMonthsLater.setMonth(today.getMonth() + 2);
+
+            // Format dates to yyyy-mm-dd
+            const formatDate = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+
+            // Set min and max attributes
+            startDateInput.min = formatDate(today);
+            startDateInput.max = formatDate(twoMonthsLater);
+        });
+    </script>
 </body>
 </html>

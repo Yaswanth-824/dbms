@@ -7,5 +7,5 @@ import com.example.Travel.And.Tourisum.models.transport;
 @Repository
 public interface tranport {
     List<transport> findbyId(Long placId);
-    void addBooking(Long placeId);
+    Long addBooking(transport transport);
 }

@@ -38,12 +38,14 @@
                         <td th:text="${transport.transportTypeName}">Transport Type</td>
                         <td th:text="${transport.Ostatus}">Availability Status</td>
                         <td>
-                            <form th:action="@{/Booking/{placeId}/{hid}/{rid}/{Id}/payment/pay(placeId=${placeId},hid=${hid},rid = ${rid},Id=${transport.operatorId})}" 
-                            method="get" 
-                            th:object="${roomBooking}" 
+                            <form th:action="@{/Booking/Payment/{operatorId}/transport(operatorId=${transport.operatorId})}" 
+                            method="post" 
+                            th:object="${datamodel}" 
                             onsubmit="return validateDate(this.startDate)"> 
-                            <input type="hidden" th:value="${startDate}" name='startDate'/>   
-
+                            <input type="hidden" th:field="*{bid}" />
+                            <input type="hidden" th:field="*{placeId}" />
+                            <input type="hidden" th:attr="name='tid'" th:value="${transport.operatorId}" />
+                            <input type="hidden" th:attr="name='typeId'" th:value="${transport.transportTypeId}" />
                             <button type="submit">Book Now</button>
                         </form>
                         </td>
@@ -52,7 +54,7 @@
             </table>
         </div>
 
-        <div th:if="${tranports == null || #lists.isEmpty(ways)}" class="no-transport">
+        <div th:if="${tranports == null || #lists.isEmpty(tranports)}" class="no-transport">
             <p>No transport options available for the selected place.</p>
         </div>
 

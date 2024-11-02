@@ -17,4 +17,5 @@ public class RoomBookings {
     private String Bookingstatus;
     private Integer Hid;
     private LocalDate startDate;
+    private Integer bid;
 }

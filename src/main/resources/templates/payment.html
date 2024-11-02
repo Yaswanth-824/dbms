@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Details - Trip Planner</title>
+    <link rel="stylesheet" type="text/css" href="/css/payment.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Details</h1>
+
+        <section class="cost-section">
+            <div class="cost-item">
+                <span class="label">Place Cost:</span>
+                <span class="value" th:text="${place.totalCost}">[Place Cost]</span>
+            </div>
+        </section>
+
+        <a href="/Booking/place/{placeId}(placeId=${place.placeId})" class="cta-button">Proceed to Payment</a>
+    </div>
+</body>
+</html>
