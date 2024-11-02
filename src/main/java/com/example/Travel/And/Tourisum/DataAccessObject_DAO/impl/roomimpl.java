@@ -1,5 +1,6 @@
 package com.example.Travel.And.Tourisum.DataAccessObject_DAO.impl;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -60,50 +61,44 @@ public class roomimpl implements roomdao {
     // Method to book a room
     @Override
 public Long book(RoomBookings roombook) {
+    java.sql.Date today = java.sql.Date.valueOf(roombook.getStartDate());
     try {
-        // SQL query to insert room booking details into the Room_Bookings table
         String sql = "INSERT INTO Room_Bookings (RoomID, username, Hid, TotalDays, startDate, BookingStatus,bid) VALUES (?, ?, ?, ?, ?, ?,?)";
-        
-        // SQL query to update room status to "Not Available"
+    
         String sql1 = "UPDATE Rooms SET RStatus = 'NAvail' WHERE RoomID = ?";
-        
-        // Convert LocalDate to java.sql.Date
-        java.sql.Date today = java.sql.Date.valueOf(roombook.getStartDate());
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        System.out.println("check ___________"+roombook.getRoomId());
-        // Perform the insertion and retrieve the generated key
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[] { "RBID" }); // Make sure to use the correct column name
-            ps.setInt(1, roombook.getRoomId()); // Set the RoomID
-            ps.setString(2, getUserName()); // Set the username
-            ps.setInt(3, roombook.getHid()); // Set the hotel ID
-            ps.setInt(4, roombook.getTotalDays()); // Set the total days of booking
-            ps.setDate(5, today); // Set the start date
+            ps.setInt(1, roombook.getRoomId());
+            ps.setString(2, getUserName());
+            ps.setInt(3, roombook.getHid()); 
+            ps.setInt(4, roombook.getTotalDays());
+            ps.setDate(5, today);
             ps.setString(6, roombook.getBookingstatus());
-            ps.setInt(7,roombook.getBid()); // Set the booking status
-            return ps; // Return the prepared statement
+            ps.setInt(7,roombook.getBid());
+            return ps;
         }, keyHolder);
-
-        // Get the generated RBID from the inserted row
-        Long generatedRBID = keyHolder.getKey().longValue(); // Extract the generated key
-
-        // Update the room status to "Not Available"
-        jdbcTemplate.update(sql1, roombook.getRoomId()); // Update room status
-
-        return generatedRBID; // Return the new booking ID
+        Long generatedRBID = keyHolder.getKey().longValue(); 
+        jdbcTemplate.update(sql1, roombook.getRoomId());
+        return generatedRBID;
+    }catch (DuplicateKeyException e) {
+        System.out.println("Duplicate key exception occurred: " + e.getMessage());
+        String sql = "UPDATE Room_Bookings SET RoomID = ?, username = ?, Hid = ?, TotalDays = ?, startDate = ?, BookingStatus = ? where bid = ? ";
+        jdbcTemplate.update(sql,roombook.getRoomId(),getUserName(),roombook.getHid(),1,today,"Booked",roombook.getBid());
+        String sql1 = "UPDATE Rooms SET RStatus = 'NAvail' WHERE RoomID = ?";
+        Long rbid = jdbcTemplate.queryForObject("SELECT RBID FROM Room_Bookings WHERE bid = ?", Long.class, roombook.getBid());
+        jdbcTemplate.update(sql1,roombook.getRoomId());
+        return rbid;
     } catch (Exception e) {
-        System.out.println("An error occurred: " + e.getMessage()); // Handle exceptions
-        e.printStackTrace(); // Print stack trace for debugging
-        return 0L; // Return 0 if there is an error
+        System.out.println("An error occurred: " + e.getMessage());
+        e.printStackTrace();
+        return 0L;
     }
 }
 
 
     public void availroom(Integer rid) {
         try {
-            // Insert room booking details into the Room_Bookings table
-            
-            // Update room status to "NAvail" (Not Available)
             String sql1 = "UPDATE Rooms SET RStatus = 'Avail' WHERE RoomID = ?";
             jdbcTemplate.update(sql1,rid);
         } catch (Exception e) {
@@ -113,8 +108,6 @@ public Long book(RoomBookings roombook) {
     }
     public void navailroom(Integer rid) {
         try {
-            // Insert room booking details into the Room_Bookings table
-            // Update room status to "NAvail" (Not Available)
             String sql1 = "UPDATE Rooms SET RStatus = 'Pending' WHERE RoomID = ?";
             jdbcTemplate.update(sql1,rid);
         } catch (Exception e) {
@@ -139,6 +132,16 @@ public Long book(RoomBookings roombook) {
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
             return new Rooms();
+        }
+    }
+    public boolean addbid(Integer bid){
+        try {
+            String sql = "INSERT INTO Room_Bookings (bid) VALUES (?)";
+            jdbcTemplate.update(sql,bid);
+            return true;
+        } catch (Exception e) {
+            
+            return false;
         }
     }
     

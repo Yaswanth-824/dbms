@@ -69,5 +69,6 @@ public class home {
         model.addAttribute("data", m1);
         return "paths";
     }
+
     
 }

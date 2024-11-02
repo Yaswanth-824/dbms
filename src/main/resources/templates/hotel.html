@@ -139,8 +139,12 @@
                 </div>
             </form>
             <div>
-                <button class="skip-button" onclick="skipFilter()">Skip</button>
-            </div>
+            <form th:action="@{/Booking/room/skip}" method="get">
+                <input type="hidden" name ="bid"  th:value="${bid}"/>
+                <input type="hidden" name ="placeId"  th:value="${placeId}"/>
+                <button type="submit">Skip Room Booking</button>
+            </form>
+        </div>
         </div>
 
         <!-- Hotel Details Section -->

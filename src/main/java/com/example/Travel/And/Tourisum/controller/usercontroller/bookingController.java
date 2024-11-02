@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.Travel.And.Tourisum.DataAccessObject_DAO.impl.bookingiml;
 import com.example.Travel.And.Tourisum.DataAccessObject_DAO.impl.hotelimpl;
@@ -16,23 +16,18 @@ import com.example.Travel.And.Tourisum.DataAccessObject_DAO.impl.reviewImpl;
 import com.example.Travel.And.Tourisum.DataAccessObject_DAO.impl.roomimpl;
 import com.example.Travel.And.Tourisum.DataAccessObject_DAO.impl.tbookingimpl;
 import com.example.Travel.And.Tourisum.models.Hotels;
-import com.example.Travel.And.Tourisum.models.RoomBookings;
 import com.example.Travel.And.Tourisum.models.Rooms;
-// import com.example.Travel.And.Tourisum.models.Rooms;
 import com.example.Travel.And.Tourisum.models.bookings;
 import com.example.Travel.And.Tourisum.models.datamodel;
-import com.example.Travel.And.Tourisum.models.payment;
 import com.example.Travel.And.Tourisum.models.review;
 import com.example.Travel.And.Tourisum.models.transport;
-// import com.example.Travel.And.Tourisum.models.transport;
 import com.example.Travel.And.Tourisum.service.userservice.bookingservice;
 import com.example.Travel.And.Tourisum.service.userservice.paymentservice;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -65,24 +60,18 @@ public class bookingController {
         List<Hotels> hotel= hotelimpl.findbyId(placeId);
         model.addAttribute("hotel", hotel);
         model.addAttribute("bid", bid);
-        System.out.println("Generated Booking ID: " + bid);
         model.addAttribute("placeId", placeId);
         if (startDate == null) {
             startDate = LocalDate.now().plus(2, ChronoUnit.DAYS);
         }
         model.addAttribute("startDate", startDate);
-        // return "hotel";
-        // if (true) {
-        //     // Redirect to the booking page with an error message
-        //     return "redirect:/place/" + placeId + "?paymentError=true";
-        // }
         return "hotel";
     }
     @GetMapping("/{placeId}/hotel/{hid}")
     public String hbook(@PathVariable Long placeId,Model model,@RequestParam Integer bid,@PathVariable Integer hid,@RequestParam LocalDate startDate,@ModelAttribute datamodel datamodel){
         List<Rooms> rooms = roomimpl.findById(hid);
         
-        model.addAttribute("rooms", rooms);          // Pass the list of rooms to the template
+        model.addAttribute("rooms", rooms);
         datamodel.setHid(hid);
         datamodel.setPlaceId(placeId);
         datamodel.setStartDate(startDate);
@@ -99,22 +88,25 @@ public class bookingController {
         model.addAttribute("datamodel",datamodel);
         return "tranport";
     }
-    @GetMapping("/{placeId}/{hid}/{rid}/{tid}/paytment/pay")
-    public String paymentdetails(@PathVariable Long placeId,@RequestParam LocalDate startDate,
-    @PathVariable Integer hid,@PathVariable Integer rid,@RequestParam Long tid) {
-        // trransport navail
-        payment payment = new payment();
-        payment.setRoomID(rid);
-        payment.setHid(hid);
-        payment.setMode_of_payment("UPI");
-        payment.setOperatorId(tid);
-        payment.setPayment_date(LocalDate.now());
-        // boolean success = payments.bookingProgress(placeId,startDate,payment);
-        System.out.println("Start Date: " + startDate);
-        if(true){
-            return "redirect:/Booking";
+    @GetMapping("/transport/skip")
+    public String skipTransport(@RequestParam Integer bid, RedirectAttributes redirectAttributes) {
+        if (tbookingimpl.addbid(bid)) {
+            redirectAttributes.addFlashAttribute("message", "Transport booking skipped successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Transport is skipped already for Booking");
         }
-        return new String();
+        System.out.println("Succes in Skiiping transport");
+        return "redirect:/Booking";
+    }
+    @GetMapping("/room/skip")
+    public String getMethodName(@RequestParam Integer bid,@RequestParam Long placeId,RedirectAttributes redirectAttributes) {
+        if (roomimpl.addbid(bid)) {
+            redirectAttributes.addFlashAttribute("message", "Transport booking skipped successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Transport is skipped already for Booking");
+        }
+        System.out.println("Succes in Skiiping Room");
+        return "redirect:/Booking/"+placeId+"/transport"+"?bid="+bid;
     }
     
     @GetMapping("/Addreview/{placeId}")
@@ -135,8 +127,28 @@ public class bookingController {
         model.addAttribute("hotel", hotel);
         return "hotel";
     }
-    
-    
-    
-    
+    @GetMapping("/test")
+    public String books(Model model){
+        List<bookings> ans = bookingiml.allbooks();
+        model.addAttribute("books",ans);
+        return "temp";
+    }
+
+    // @GetMapping("/{placeId}/{hid}/{rid}/{tid}/paytment/pay")
+    // public String paymentdetails(@PathVariable Long placeId,@RequestParam LocalDate startDate,
+    // @PathVariable Integer hid,@PathVariable Integer rid,@RequestParam Long tid) {
+    //     // trransport navail
+    //     payment payment = new payment();
+    //     payment.setRoomID(rid);
+    //     payment.setHid(hid);
+    //     payment.setMode_of_payment("UPI");
+    //     payment.setOperatorId(tid);
+    //     payment.setPayment_date(LocalDate.now());
+    //     // boolean success = payments.bookingProgress(placeId,startDate,payment);
+    //     System.out.println("Start Date: " + startDate);
+    //     if(true){
+    //         return "redirect:/Booking";
+    //     }
+    //     return new String();
+    // }
 }

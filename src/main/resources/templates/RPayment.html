@@ -74,7 +74,6 @@
     <div class="container">
         <h1>Room Payment</h1>
         <p>Proceeding with payment for RBID: <strong th:text="${RBID}"></strong></p>
-
         <!-- Display room information -->
         <div>
             <h2>Room Details</h2>
@@ -84,6 +83,7 @@
             <p>Status: <strong th:text="${room.Rstatus}"></strong></p>
             <p>Price: <strong th:text="${room.Rprice}"></strong> USD</p>
         </div>
+
 
         <div th:if="${RBID == 0}">
             <!-- Payment form is shown only if RBID is 0 -->

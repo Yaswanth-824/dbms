@@ -15,4 +15,9 @@ public class bookings {
     private String username;
     private String status;
     private Date day;
+    private Integer hid;
+    private Integer rid;
+    private Long transportTypeId;
+    private Long OperatorId;
+    private Long serviceId;
 }

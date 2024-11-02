@@ -75,7 +75,12 @@
 <body>
     <div class="container">
         <h1>Transport Payment</h1>
-        
+        <div>
+            <form th:action="@{/Booking/transport/skip}" method="get">
+                <input type="hidden" name ="bid"  th:value="${datamodel.bid}"/>
+                <button type="submit">Skip Transport Booking</button>
+            </form>
+        </div>
         
         
         
@@ -118,6 +123,7 @@
                     <input type="hidden" th:field="*{tid}" />
                     <input type="hidden" th:attr="name='typeId'" th:value="${transport.transportTypeId}" />
                     <input type="hidden" th:attr="name='sId'" th:value="${transport.serviceId}" />
+                    <input type="hidden" th:field="*{bid}" />
                     <button type="submit" class="pay-button">Proceed to Payment</button>
                 </form>
             </div>

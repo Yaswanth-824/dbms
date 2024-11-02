@@ -1,9 +1,9 @@
 package com.example.Travel.And.Tourisum.DataAccessObject_DAO.impl;
 import java.util.*;
-import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -85,11 +85,12 @@ public class tbookingimpl implements tranport{
         }
     }
     public Long addBooking(transport transport) {
-        String sql = "INSERT INTO TransportBookings (username, serviceId, bookingDate, totalDays,transportTypeId, bookingStatus, OperatorId) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        
         String sql1 = "Update TransportOperators set Ostatus='NAvail' where OperatorId=?";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         java.sql.Date today = java.sql.Date.valueOf(LocalDate.now());
         try {
+            String sql = "INSERT INTO TransportBookings (username, serviceId, bookingDate, totalDays,transportTypeId, bookingStatus, OperatorId,bid) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
             jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(sql, new String[] { "bookingId" });
                 ps.setString(1, getUserName());
@@ -99,13 +100,18 @@ public class tbookingimpl implements tranport{
                 ps.setLong(5, transport.getTransportTypeId());
                 ps.setString(6, "Booked");
                 ps.setLong(7,transport.getOperatorId());
+                ps.setInt(8,transport.getBid());
                 return ps;
             }, keyHolder);
             jdbcTemplate.update(sql1,transport.getOperatorId());
-            // Retrieve and return the generated bookingId
             return keyHolder.getKey().longValue();
-
-        } catch (Exception e) {
+        } catch (DuplicateKeyException e) {
+            String sql = "UPDATE TransportBookings SET username = ?, serviceId = ?, bookingDate = ?, totalDays = ?, transportTypeId = ?, bookingStatus = ?, OperatorId = ? WHERE bid = ?";
+            jdbcTemplate.update(sql,getUserName(),transport.getServiceId(),today,1,transport.getTransportTypeId(),"Booked",transport.getOperatorId(),transport.getBid());
+            Long tbid = jdbcTemplate.queryForObject("SELECT bookingId FROM TransportBookings WHERE bid = ?", Long.class, transport.getBid());
+            jdbcTemplate.update(sql1,transport.getOperatorId());
+            return tbid;
+        }catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
             e.printStackTrace();
             return null;
@@ -137,7 +143,16 @@ public class tbookingimpl implements tranport{
             return new transport(); // Return a new instance instead of null
         }
     }
-    
+    public boolean addbid(Integer bid){
+        String sql = "INSERT INTO TransportBookings (bid) VALUES (?)";
+        try {
+            jdbcTemplate.update(sql, bid);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
 
     
 

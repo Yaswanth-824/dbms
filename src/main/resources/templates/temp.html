@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Booking List</title>
+</head>
+<body>
+    <h1>Booking List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Bid</th>
+                <th>Place ID</th>
+                <th>Username</th>
+                <th>Booking Date</th>  <th>Hid</th>
+                <th>Rid</th>
+                <th>Transport Type ID</th>
+                <th>Operator ID</th>
+                <th>Service ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="booking : ${books}" th:unless="${booking.bid == 0}">  <td th:text="${booking.bid}"></td>
+                <td th:text="${booking.placeId}"></td>
+                <td th:text="${booking.username}"></td>
+                <td th:text="${booking.day}"></td>
+                <td th:text="${booking.hid}"></td>
+                <td th:text="${booking.rid}"></td>
+                <td th:text="${booking.transportTypeId}"></td>
+                <td th:text="${booking.operatorId}"></td>
+                <td th:text="${booking.serviceId}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

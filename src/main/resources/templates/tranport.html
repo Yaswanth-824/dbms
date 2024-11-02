@@ -15,7 +15,12 @@
             <input type="text" id="searchTransport" placeholder="Search by Transport Type or Operator Name" />
             <button type="button" onclick="searchTransport()">Search</button>
         </div>
-
+        <div>
+            <form th:action="@{/Booking/transport/skip}" method="get">
+                <input type="hidden" name ="bid"  th:value="${datamodel.bid}"/>
+                <button type="submit">Skip Transport Booking</button>
+            </form>
+        </div>
         <div th:if="${tranports != null}">
             <table>
                 <thead>

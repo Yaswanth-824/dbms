@@ -39,9 +39,22 @@ public class bookingiml implements booking {
             bookings booking = new bookings();
             booking.setBid(rs.getInt("bid")); // Assuming you have a bid column
             booking.setPlaceId(rs.getLong("placeId"));
-            // booking.setUsername(rs.getString("uid")); // Map the username from the database
-            // booking.setStatus(rs.getString("bstatus"));
-            // booking.setDay(rs.getDate("bookingdate"));
+            return booking;
+        }
+    }
+    public static class mapper implements RowMapper<bookings> {
+        @Override
+        public bookings mapRow(ResultSet rs, int rowNum) throws SQLException {
+            bookings booking = new bookings();
+            booking.setBid(rs.getInt("bid"));
+            booking.setPlaceId(rs.getLong("placeId"));
+            booking.setHid(rs.getInt("Hid"));
+            booking.setRid(rs.getInt("RoomID"));
+            booking.setUsername(rs.getString("username"));
+            booking.setOperatorId(rs.getLong("OperatorId"));
+            booking.setTransportTypeId(rs.getLong("transportTypeId"));
+            booking.setServiceId(rs.getLong("serviceId"));
+            booking.setDay(rs.getDate("bookingDate"));
             return booking;
         }
     }
@@ -87,7 +100,7 @@ public class bookingiml implements booking {
     public Integer addBooking(Long placeId,LocalDate date) {
         try {
             String sql = "INSERT INTO bookings (placeId, uid, bstatus, bookingdate) VALUES (?, ?, ?, ?)";
-            String username = "root6";
+            String username = getUserName();
             java.sql.Date today = java.sql.Date.valueOf(date);
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
@@ -105,6 +118,23 @@ public class bookingiml implements booking {
         } catch (Exception e) {
             e.printStackTrace();
             return 0; // Log the exception
+        }
+    }
+    public List<bookings> allbooks(){
+        String sql = "SELECT rb.Hid AS Hid, rb.RoomID AS RoomID, tb.OperatorId AS OperatorId, " +
+        "tb.transportTypeId AS transportTypeId, rb.bid AS bid, tb.serviceId AS serviceId, " +
+        "b.placeId AS placeId, b.uid AS username, b.bookingdate AS bookingDate " +
+        "FROM bookings b " +
+        "LEFT JOIN Room_Bookings rb ON rb.bid = b.bid " +
+        "LEFT JOIN TransportBookings tb ON rb.RBID = tb.bid " +
+        "WHERE b.uid = ?"; // Replace '?' with username parameter
+        try{
+            return jdbcTemplate.query(sql,new mapper(),getUserName());
+        }
+        catch(Exception e){
+            System.err.println("SQL Error: " + e.getMessage());
+            // e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 }

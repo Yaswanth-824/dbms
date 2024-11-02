@@ -158,7 +158,13 @@
 <body>
     <div class="container">
         <h1>Room Booking</h1>
-
+        <div>
+            <form th:action="@{/Booking/room/skip}" method="get">
+                <input type="hidden" name ="bid"  th:value="${datamodel.bid}"/>
+                <input type="hidden" name ="placeId"  th:value="${datamodel.placeId}"/>
+                <button type="submit">Skip Room Booking</button>
+            </form>
+        </div>
         <!-- Display total rooms available -->
         <div th:if="${rooms}">
             <p>Total Rooms Available: <strong th:text="${#lists.size(rooms)}"></strong></p>
