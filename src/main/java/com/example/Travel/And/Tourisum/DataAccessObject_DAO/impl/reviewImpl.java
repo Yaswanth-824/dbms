@@ -9,11 +9,20 @@ import java.sql.*;
 import com.example.Travel.And.Tourisum.DataAccessObject_DAO.reviewDao;
 import com.example.Travel.And.Tourisum.models.review;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 
 @Repository
 public class reviewImpl implements reviewDao{
-
+    public String getUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && 
+            !authentication.getName().equals("anonymousUser")) {
+            return authentication.getName(); // This returns the username
+        }
+        return null; // If no authenticated user or user is anonymous, return null
+    }
     private final JdbcTemplate jdbcTemplate;
     public reviewImpl(final JdbcTemplate jdbctemplate){
         this.jdbcTemplate = jdbctemplate;

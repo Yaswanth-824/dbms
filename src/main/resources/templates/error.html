@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Profile</title>
+    <link rel="stylesheet" th:href="@{/css/update.css}">
+    <link rel="stylesheet" href="/css/index.css">
+    <style>
+        header {
+            background-color: #225166;
+            color: rgb(252, 254, 254);
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #ebe8e8;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">HOME</a></li>
+                <li><a href="/place">place</a></li>
+                <li><a href="/about-us">about-us</a></li>
+                <li>
+                    <a href="/login">logout</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <h>Plz <a href="/logout">Logout</a> to access Login page</h>
+
+    <!-- Final Update Button (Optional) -->
+    <div>
+        <button type="button" onclick="document.getElementById('formFname').submit(); document.getElementById('formLname').submit(); document.getElementById('formEmailId').submit(); document.getElementById('formDob').submit(); document.getElementById('formPhoneNumber').submit();">Update All</button>
+    </div>
+
+</body>
+</html>

@@ -3,6 +3,8 @@ package com.example.Travel.And.Tourisum.controller.homeCon;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 // ---------Meathods of Mapping 
@@ -37,6 +39,14 @@ import com.example.Travel.And.Tourisum.service.reviewService;
 @RequestMapping("/place")    // Allows All Types of Mapping i.e GetMapping(Display Data),PostMapping(Get Data From User),PutMapping(Updatting Data),DeleteMapping(Deleteing Data),Etc..
 
 public class allPathController {
+    public String getUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && 
+            !authentication.getName().equals("anonymousUser")) {
+            return authentication.getName(); // This returns the username
+        }
+        return null; // If no authenticated user or user is anonymous, return null
+    }
     @Autowired
     private allPathservice allPathservice;
     @Autowired
@@ -47,6 +57,7 @@ public class allPathController {
     public String allplaces(Model model) {
         List<traveldata> m1 = allPathservice.allplaces();
         model.addAttribute("data", m1);
+        model.addAttribute("check",getUserName());
         return "paths";
     }
     @GetMapping("{placeId}")

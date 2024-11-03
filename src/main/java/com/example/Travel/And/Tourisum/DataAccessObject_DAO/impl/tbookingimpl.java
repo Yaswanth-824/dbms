@@ -20,10 +20,11 @@ import com.example.Travel.And.Tourisum.models.transport;
 public class tbookingimpl implements tranport{
     public String getUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated() && 
+            !authentication.getName().equals("anonymousUser")) {
             return authentication.getName(); // This returns the username
         }
-        return null; // If there's no authenticated user, return null
+        return null; // If no authenticated user or user is anonymous, return null
     }
     private JdbcTemplate jdbcTemplate;
     public tbookingimpl(final JdbcTemplate jdbcTemplate){
@@ -87,6 +88,7 @@ public class tbookingimpl implements tranport{
     public Long addBooking(transport transport) {
         
         String sql1 = "Update TransportOperators set Ostatus='NAvail' where OperatorId=?";
+        String sql2 = "Update TransportOperators set Ostatus='Avail' where OperatorId=?";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         java.sql.Date today = java.sql.Date.valueOf(LocalDate.now());
         try {
@@ -109,6 +111,12 @@ public class tbookingimpl implements tranport{
             String sql = "UPDATE TransportBookings SET username = ?, serviceId = ?, bookingDate = ?, totalDays = ?, transportTypeId = ?, bookingStatus = ?, OperatorId = ? WHERE bid = ?";
             jdbcTemplate.update(sql,getUserName(),transport.getServiceId(),today,1,transport.getTransportTypeId(),"Booked",transport.getOperatorId(),transport.getBid());
             Long tbid = jdbcTemplate.queryForObject("SELECT bookingId FROM TransportBookings WHERE bid = ?", Long.class, transport.getBid());
+            try {
+                Long OperatorId = jdbcTemplate.queryForObject("SELECT bookingId FROM TransportBookings WHERE bid = ?", Long.class, transport.getBid());
+                jdbcTemplate.update(sql2,OperatorId);
+            } catch (Exception e1) {
+                System.out.println("Operator Not booked Previously");
+            }
             jdbcTemplate.update(sql1,transport.getOperatorId());
             return tbid;
         }catch (Exception e) {
@@ -148,12 +156,25 @@ public class tbookingimpl implements tranport{
         try {
             jdbcTemplate.update(sql, bid);
             return true;
-        } catch (Exception e) {
+        } catch (DuplicateKeyException e) {
+            String sql1 = "Delete From TransportBookings where bid = ?";
+            try {
+                Long OperatorId = jdbcTemplate.queryForObject("SELECT OperatorId FROM TransportBookings WHERE bid = ?", Long.class, bid);
+                String sql2 = "Update TransportOperators set Ostatus='Avail' where OperatorId=?";
+                System.out.println("Operator Updated" + OperatorId);
+                
+                jdbcTemplate.update(sql2,OperatorId);
+            } catch (Exception e1) {
+                System.out.println("Operator Not booked Previously");
+                return false;
+            }
+            jdbcTemplate.update(sql1, bid);
+            jdbcTemplate.update(sql, bid);
+            return true;
+        }catch(Exception e1){
+            System.out.println("An error occurred: " + e1.getMessage());
             return false;
         }
 
     }
-
-    
-
 }

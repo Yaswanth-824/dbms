@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,12 +14,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class authcontroller {
+    public String getUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && 
+            !authentication.getName().equals("anonymousUser")) {
+            return authentication.getName(); // This returns the username
+        }
+        return null; // If no authenticated user or user is anonymous, return null
+    }
     @Autowired
     private AuthenticationManager authenticationManager;
-
     // GET mapping to display the login form
     @GetMapping("/login")
     public String showLoginPage() {
+        if(getUserName()!=null){
+            return "error";
+        }
         return "login"; // This returns the Thymeleaf login page
     }
 

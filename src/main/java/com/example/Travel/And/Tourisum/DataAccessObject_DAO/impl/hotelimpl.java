@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
 import com.example.Travel.And.Tourisum.DataAccessObject_DAO.hoteldao;
@@ -13,7 +15,14 @@ import com.example.Travel.And.Tourisum.models.Hotels;
 
 @Repository
 public class hotelimpl implements hoteldao {
-
+    public String getUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && 
+            !authentication.getName().equals("anonymousUser")) {
+            return authentication.getName(); // This returns the username
+        }
+        return null; // If no authenticated user or user is anonymous, return null
+    }
     private JdbcTemplate jdbcTemplate;
     public hotelimpl(final JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;

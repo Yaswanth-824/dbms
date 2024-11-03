@@ -47,6 +47,7 @@
             </div>
             <div th:if="${bid > 0}">
                 <a th:href="@{/Booking/place/{placeId}?bid={bid}(placeId=${data.placeId},bid=${bid})}" class="proceed-button">Proceed to Next Step</a>
+                <a th:href="@{/Booking/skip/all}" class="proceed-button">Skip all</a>
             </div>
         </div>
     </div>

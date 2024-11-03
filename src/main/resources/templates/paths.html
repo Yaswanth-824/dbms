@@ -5,10 +5,53 @@
     <title>Travel Places</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/path.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <style>
+        header {
+            background-color: #225166;
+            color: rgb(252, 254, 254);
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+            color:white;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #ebe8e8;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <h1>Travel Places</h1>
+        <nav>
+            <ul>
+                <li><a href="/">HOME</a></li>
+                <li><a href="/place">place</a></li>
+                <li><a href="/about-us">about-us</a></li>
+                <li th:if="${check == null}">
+                    <a href="/login">Login</a>
+                </li>
+                <li th:if="${check != null}">
+                    <a href="/profile">Profile</a>
+                </li>
+                <li th:if="${check != null}">
+                    <a href="/Booking">Booking</a>
+                </li>
+                <li th:if="${check != null}">
+                    <a href="/logout">logout</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
     <div class="container mt-5">
-        <h1 class="text-center">Travel Places</h1>
         <div th:each="place : ${data}" class="place-container mb-4 border p-3 rounded shadow-sm bg-light">
             <h2 th:text="${place.title}" class="h4"></h2>
             <p th:text="${place.description}"></p>

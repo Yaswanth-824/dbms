@@ -126,7 +126,7 @@ public class bookingiml implements booking {
         "b.placeId AS placeId, b.uid AS username, b.bookingdate AS bookingDate " +
         "FROM bookings b " +
         "LEFT JOIN Room_Bookings rb ON rb.bid = b.bid " +
-        "LEFT JOIN TransportBookings tb ON rb.RBID = tb.bid " +
+        "LEFT JOIN TransportBookings tb ON rb.bid = tb.bid " +
         "WHERE b.uid = ?"; // Replace '?' with username parameter
         try{
             return jdbcTemplate.query(sql,new mapper(),getUserName());

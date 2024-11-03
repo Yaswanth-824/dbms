@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 import java.sql.*;
+import java.time.LocalDate;
 
 import com.example.Travel.And.Tourisum.DataAccessObject_DAO.roomdao;
 import com.example.Travel.And.Tourisum.models.RoomBookings;
@@ -19,10 +20,11 @@ import com.example.Travel.And.Tourisum.models.Rooms;
 public class roomimpl implements roomdao {
     public String getUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated() && 
+            !authentication.getName().equals("anonymousUser")) {
             return authentication.getName(); // This returns the username
         }
-        return null; // If there's no authenticated user, return null
+        return null; // If no authenticated user or user is anonymous, return null
     }
     // Constructor should be public for Spring to create a bean
     public roomimpl(final JdbcTemplate jdbcTemplate) {
@@ -84,10 +86,16 @@ public Long book(RoomBookings roombook) {
     }catch (DuplicateKeyException e) {
         System.out.println("Duplicate key exception occurred: " + e.getMessage());
         String sql = "UPDATE Room_Bookings SET RoomID = ?, username = ?, Hid = ?, TotalDays = ?, startDate = ?, BookingStatus = ? where bid = ? ";
-        jdbcTemplate.update(sql,roombook.getRoomId(),getUserName(),roombook.getHid(),1,today,"Booked",roombook.getBid());
+        try {
+            Integer RoomId = jdbcTemplate.queryForObject("SELECT RoomID FROM Room_Bookings WHERE bid = ?", Integer.class, roombook.getBid());
+            availroom(RoomId);
+        } catch (Exception e1) {
+            System.out.println("Room Not booked Previously");
+        }
         String sql1 = "UPDATE Rooms SET RStatus = 'NAvail' WHERE RoomID = ?";
         Long rbid = jdbcTemplate.queryForObject("SELECT RBID FROM Room_Bookings WHERE bid = ?", Long.class, roombook.getBid());
         jdbcTemplate.update(sql1,roombook.getRoomId());
+        jdbcTemplate.update(sql,roombook.getRoomId(),getUserName(),roombook.getHid(),1,today,"Booked",roombook.getBid());
         return rbid;
     } catch (Exception e) {
         System.out.println("An error occurred: " + e.getMessage());
@@ -103,7 +111,7 @@ public Long book(RoomBookings roombook) {
             jdbcTemplate.update(sql1,rid);
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
-            e.printStackTrace();
+            // e.printStackTrace();
         }
     }
     public void navailroom(Integer rid) {
@@ -135,12 +143,31 @@ public Long book(RoomBookings roombook) {
         }
     }
     public boolean addbid(Integer bid){
+        java.sql.Date today = java.sql.Date.valueOf(LocalDate.now());
+        String sql = "INSERT INTO Room_Bookings (bid,startDate) VALUES (?,?)";
         try {
-            String sql = "INSERT INTO Room_Bookings (bid) VALUES (?)";
-            jdbcTemplate.update(sql,bid);
+            jdbcTemplate.update(sql,bid,today);
             return true;
-        } catch (Exception e) {
-            
+        } catch (DuplicateKeyException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+            String sql1 = "Delete From Room_Bookings where bid = ?";
+            try{
+                Integer RoomId = jdbcTemplate.queryForObject("SELECT RoomID FROM Room_Bookings WHERE bid = ?", Integer.class,bid);
+                availroom(RoomId);
+                jdbcTemplate.update(sql1,bid);
+                jdbcTemplate.update(sql,bid,today);
+                System.out.println("Room booked Previously\n" +RoomId);
+                return true;
+            }
+            catch(Exception e1){
+                System.out.println("Room Not booked Previously\n");
+                // jdbcTemplate.update(sql1,bid);
+                jdbcTemplate.update(sql,bid,today);
+                System.out.println("An error occurred: " + e1.getMessage());
+                return false;
+            }
+        }
+        catch(Exception e){
             return false;
         }
     }

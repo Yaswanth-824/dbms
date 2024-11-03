@@ -69,6 +69,11 @@ public class home {
         model.addAttribute("data", m1);
         return "paths";
     }
+    @GetMapping("/about-us")
+    public String about() {
+        return "about-us";
+    }
+    
 
     
 }

@@ -27,10 +27,11 @@ import com.example.Travel.And.Tourisum.service.userservice.FileStorageService;
 public class userimpl implements userdao{
     public String getUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated() && 
+            !authentication.getName().equals("anonymousUser")) {
             return authentication.getName(); // This returns the username
         }
-        return null; // If there's no authenticated user, return null
+        return null; // If no authenticated user or user is anonymous, return null
     }
     @Autowired
     private PasswordEncoder passwordEncoder;

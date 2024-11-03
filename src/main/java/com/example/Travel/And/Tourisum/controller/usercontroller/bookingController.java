@@ -48,7 +48,7 @@ public class bookingController {
     roomimpl roomimpl;
     @Autowired
     paymentservice payments;
-    @GetMapping("")
+    @GetMapping("/test")
     public String allbookings(Model model) {
         List<bookings> data = bookingservice.allbookings();
         model.addAttribute("data", data);
@@ -68,7 +68,7 @@ public class bookingController {
         return "hotel";
     }
     @GetMapping("/{placeId}/hotel/{hid}")
-    public String hbook(@PathVariable Long placeId,Model model,@RequestParam Integer bid,@PathVariable Integer hid,@RequestParam LocalDate startDate,@ModelAttribute datamodel datamodel){
+    public String hbook(@PathVariable Long placeId,Model model,@RequestParam Integer bid,@PathVariable Integer hid,@RequestParam LocalDate startDate,datamodel datamodel){
         List<Rooms> rooms = roomimpl.findById(hid);
         
         model.addAttribute("rooms", rooms);
@@ -89,23 +89,29 @@ public class bookingController {
         return "tranport";
     }
     @GetMapping("/transport/skip")
-    public String skipTransport(@RequestParam Integer bid, RedirectAttributes redirectAttributes) {
+    public String skipTransport(@RequestParam Integer bid, RedirectAttributes redirectAttributes,@RequestParam(required = false) boolean delete) {
         if (tbookingimpl.addbid(bid)) {
             redirectAttributes.addFlashAttribute("message", "Transport booking skipped successfully!");
         } else {
             redirectAttributes.addFlashAttribute("message", "Transport is skipped already for Booking");
         }
+        if(delete){
+            return "redirect:/Booking/test";
+        }
         System.out.println("Succes in Skiiping transport");
         return "redirect:/Booking";
     }
     @GetMapping("/room/skip")
-    public String getMethodName(@RequestParam Integer bid,@RequestParam Long placeId,RedirectAttributes redirectAttributes) {
+    public String getMethodName(@RequestParam Integer bid,@RequestParam Long placeId,RedirectAttributes redirectAttributes,@RequestParam(required = false) boolean delete) {
         if (roomimpl.addbid(bid)) {
             redirectAttributes.addFlashAttribute("message", "Transport booking skipped successfully!");
         } else {
             redirectAttributes.addFlashAttribute("message", "Transport is skipped already for Booking");
         }
         System.out.println("Succes in Skiiping Room");
+        if(delete){
+            return "redirect:/Booking/test";
+        }
         return "redirect:/Booking/"+placeId+"/transport"+"?bid="+bid;
     }
     
@@ -127,13 +133,28 @@ public class bookingController {
         model.addAttribute("hotel", hotel);
         return "hotel";
     }
-    @GetMapping("/test")
+    @GetMapping("")
     public String books(Model model){
         List<bookings> ans = bookingiml.allbooks();
+        for (bookings booking : ans) {
+            booking.setDate(booking.getDay().toLocalDate()); // Ensure Booking class has a LocalDate field for day
+        }
+        System.out.println(LocalDate.now());
         model.addAttribute("books",ans);
-        return "temp";
+        try{
+            return "temp";
+        }
+        catch(Exception e){
+            return "redirect:/";
+        }
     }
-
+    @GetMapping("/Skip/all")
+    public String skipAll(@RequestParam Integer bid,@RequestParam Long placeId) {
+        roomimpl.addbid(bid);
+        tbookingimpl.addbid(bid);
+        return "redirect:/Booking/test";
+    }
+    
     // @GetMapping("/{placeId}/{hid}/{rid}/{tid}/paytment/pay")
     // public String paymentdetails(@PathVariable Long placeId,@RequestParam LocalDate startDate,
     // @PathVariable Integer hid,@PathVariable Integer rid,@RequestParam Long tid) {
