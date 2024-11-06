@@ -177,4 +177,14 @@ public class tbookingimpl implements tranport{
         }
 
     }
+    public float transcost(Integer bid){
+        try {
+            float cost = jdbcTemplate.queryForObject("Select costPerDay from TransportBookings as b ,TransportServices as s where b.bid = ? AND b.serviceId = s.serviceId",float.class,bid);
+            System.out.println(cost+"transcost");
+            return cost;
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+        return 0.0f;
+    }
 }

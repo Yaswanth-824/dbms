@@ -15,4 +15,5 @@ public class review {
     private float rateing;
     private String username;
     private Long placeId;
+    private Integer bid;
 }

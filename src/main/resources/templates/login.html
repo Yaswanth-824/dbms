@@ -4,24 +4,124 @@
     <title>Login - Travel and Tourism - Trip Planner</title>
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <style>
+        /* General Page Styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f5f5f5;
-            color: #ebe8e8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
         }
+
+        /* Header Styling */
         header {
+            position: absolute;
+            top: 0;
+            width: 100%;
             background-color: #225166;
             color: rgb(252, 254, 254);
-            padding: 20px;
+            padding: 10px 0;
             text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         header h1 {
             margin: 0;
             font-size: 36px;
         }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: #f0f0f0;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #cce7e3;
+        }
+
+        /* Login Container Styling */
+        .login-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 320px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .error-message, .logout-message {
+            color: #f76b6a;
+            margin-bottom: 10px;
+        }
+
+        /* Form Input Styling */
+        form div {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 14px;
+            color: #666;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+            color: #333;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #225166;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffc107;
+            color: #333;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #e6a700;
+        }
+
     </style>
 </head>
 <body>
@@ -29,15 +129,14 @@
         <h1>Login</h1>
         <nav>
             <ul>
-                <li><a href="/">HOME</a></li>
-                <li><a href="/place">place</a></li>
-                <li><a href="/about-us">about-us</a></li>
-                <li>
-                    <a href="/login">logout</a>
-                </li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/place">Places</a></li>
+                <li><a href="/about-us">About Us</a></li>
+                <li><a href="/login">Logout</a></li>
             </ul>
         </nav>
     </header>
+
     <div class="login-container">
         <h2>Login</h2>
         <div th:if="${param.error}" class="error-message">
@@ -48,12 +147,12 @@
         </div>
         <form th:action="@{/login}" method="post">
             <div>
-                <label>User Name:</label>
-                <input type="text" name="username" required />
+                <label for="username">User Name:</label>
+                <input type="text" id="username" name="username" required />
             </div>
             <div>
-                <label>Password:</label>
-                <input type="password" name="password" required />
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required />
             </div>
             <div>
                 <input type="submit" value="Sign In" />

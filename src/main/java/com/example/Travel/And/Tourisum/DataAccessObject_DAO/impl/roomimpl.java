@@ -49,10 +49,12 @@ public class roomimpl implements roomdao {
 
     // Query to find available rooms by hotel ID
     @Override
-    public List<Rooms> findById(Integer hid) {
+    public List<Rooms> findById(Integer hid,LocalDate starDate) {
         try {
-            String sql = "SELECT * FROM Rooms WHERE HID = ? AND Rstatus = 'Avail' ORDER BY RPrice DESC";
-            return jdbcTemplate.query(sql, new roomMapper(), hid);
+            String sql = "SELECT * From Rooms where HID = ? and RoomID Not in (SELECT RoomID From Room_Bookings where startDate=?)";
+
+
+            return jdbcTemplate.query(sql, new roomMapper(), hid,starDate);
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
             e.printStackTrace();
@@ -171,5 +173,14 @@ public Long book(RoomBookings roombook) {
             return false;
         }
     }
-    
+    public float roomcost(Integer bid){
+        try {
+            float cost = jdbcTemplate.queryForObject("Select RPrice from Room_Bookings as b,Rooms as r where b.bid = ? AND r.roomID = b.roomID AND r.HID = b.Hid",float.class,bid);
+            System.out.println(cost + "room");
+            return cost;
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+        return 0.0f;
+    }
 }

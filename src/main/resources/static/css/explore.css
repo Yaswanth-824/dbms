@@ -103,6 +103,72 @@ body {
 .details-list strong {
     color: #e74c3c;
 }
+/* Review Section */
+.reviews-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.reviews-section .section-title {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-family: 'Georgia', serif;
+}
+
+.review {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    border-left: 5px solid #4CAF50;
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.review:hover {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.review h3 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 0.5rem;
+}
+
+.review p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+    margin: 0.2rem 0;
+}
+
+.review p strong {
+    color: #333;
+}
+
+.review span {
+    font-weight: bold;
+    color: #ffcc00; /* Color for the rating */
+}
+
+.rating-stars {
+    color: #ffcc00;
+    margin-left: 0.5rem;
+}
+
+/* Additional Styles */
+.reviews-section p.no-reviews {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 // import org.springframework.web.bind.annotation.Controller;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.Travel.And.Tourisum.DataAccessObject_DAO.impl.reviewImpl;
 import com.example.Travel.And.Tourisum.DataAccessObject_DAO.impl.travelimpl;
 import com.example.Travel.And.Tourisum.models.review;
 import com.example.Travel.And.Tourisum.models.traveldata;
@@ -53,6 +54,8 @@ public class allPathController {
     private reviewService reviewService;
     @Autowired
     travelimpl travelimpl;
+    @Autowired
+    reviewImpl reviewImpl;
     @GetMapping("")
     public String allplaces(Model model) {
         List<traveldata> m1 = allPathservice.allplaces();
@@ -63,6 +66,7 @@ public class allPathController {
     @GetMapping("{placeId}")
     public String place(@PathVariable Long placeId,Model model) {
         traveldata ans =  travelimpl.findbyId(placeId);
+        model.addAttribute("review",reviewImpl.findbyplaceId(placeId));
         model.addAttribute("data",ans);
         return "explore";
     }

@@ -1,0 +1,154 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #225166;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 15px;
+}
+
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+h1 {
+    text-align: center;
+    color: #225166;
+    font-size: 2.2rem;
+    margin-top: 20px;
+}
+
+.all-form {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 30px 25px;
+    background-color: rgba(0, 0, 0, 0.8); /* Slightly darker transparent black */
+    color: #f0f0f0; /* Light grey text for contrast */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    flex: 1;
+    font-weight: bold;
+    color: #99ccff; /* Softer blue */
+    font-size: 1.1rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="date"],
+.form-group input[type="password"],
+.form-group input[type="file"] {
+    flex: 2;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #b3b3b3;
+    border-radius: 6px;
+    background-color: #333333; /* Darker input background */
+    color: #f0f0f0; /* Light grey text */
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="date"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="file"]:focus {
+    border-color: #6699cc; /* Highlight border color on focus */
+}
+
+input[readonly] {
+    background-color: #444444;
+    color: #aaa; /* Muted grey for readability */
+}
+
+.edit-icon {
+    cursor: pointer;
+    margin-left: 10px;
+    color: #6699cc; /* Softer blue for edit icon */
+}
+
+.profile-photo-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 10px 0;
+    object-fit: cover;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+button[type="submit"],
+button[type="button"] {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    color: #ffffff;
+    background-color: #225166;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button[type="submit"]:hover,
+button[type="button"]:hover {
+    background-color: #1a3c50;
+    transform: translateY(-2px); /* Slight raise effect */
+}
+
+button[type="submit"]:active,
+button[type="button"]:active {
+    background-color: #163342;
+    transform: translateY(0); /* Reset on click */
+}
+
+.all-form div {
+    text-align: center;
+    margin-top: 20px;
+}
+
+input[type="checkbox"] {
+    margin-left: 10px;
+}
+
+/* Adjustments for message colors */
+.success-message {
+    color: #a3e6c8; /* Soft green for success messages */
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}

@@ -14,11 +14,12 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Write a Review</h1>
-        <form th:action="@{/Home/Booking/Addreview}" th:object="${review}" method="post">
-            <input type="hidden" th:field="*{placeId}" /> <!-- Hidden input for place ID -->
+        <form th:action="@{/Booking/Addreview}" th:object="${review}" method="post">
+            <input type="hidden" th:field="*{placeId}" /> 
+            <input type="hidden" th:field="*{bid}" /> <!-- Hidden input for place ID -->
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" th:field="*{username}" class="form-control" id="username" placeholder="Enter your username" required>
+                <input type="text" th:field="*{username}" class="form-control" id="username" value="${review.username}" readonly>
             </div>
             <div class="form-group">
                 <label for="description">Review</label>

@@ -5,7 +5,7 @@ body {
   padding: 0;
   line-height: 1.6;
   color: #ffcc00;
-  background: url('images/im1.jpg');
+  background: url('images/im1.jpg') no-repeat center center;
 }
 
 header {
@@ -149,8 +149,8 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  color: #fff; 
-  background-color: #861059; 
+  color: #000000; 
+  background-color: #3dabb8; 
 }
 
 .search-container {
@@ -158,28 +158,53 @@ nav ul li a:hover {
   align-items: center; /* Center items vertically */
 }
 
-.search-bar {
-  padding: 10px;
-  border: 1px solid #dbee7e;
-  border-radius: 5px;
-  margin-left: 10px; /* Spacing from the Home button */
-  background-color: #333;
-  color: #ffcc00;
+.search-form {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #ffffff;
+  transition: width 0.3s ease;
+  width: 200px; /* Set initial width */
+}
+
+.search-form:hover {
+  width: 350px; /* Expands on hover */
+}
+
+.search-input {
+  padding: 10px 15px;
+  border: none;
+  outline: none;
   font-size: 1rem;
+  color: #333;
+  flex-grow: 1;
+  transition: background-color 0.3s ease;
+  border-radius: 20px 0 0 20px;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.search-input:focus {
+  background-color: #f0f0f0;
 }
 
 .search-button {
-  padding: 10px 20px;
-  margin-left: 10px; /* Spacing from the search bar */
-  background-color: #ffcc00;
+  background-color: #225166;
+  color: #ffffff;
   border: none;
-  border-radius: 5px;
+  padding: 10px 15px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-weight: bold;
+  border-radius: 0 20px 20px 0;
+  transition: background-color 0.3s ease;
 }
 
 .search-button:hover {
-  background-color: #e6b800;
+  background-color: #1a3c50;
 }
 
 main {

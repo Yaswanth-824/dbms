@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.time.*;
+import java.util.ArrayList;
 
 
 
@@ -55,6 +56,7 @@ public class paymentcont {
     @GetMapping("/place/{placeId}")
     public String placeprocced(@PathVariable Long placeId,Model model,@RequestParam Integer bid) {
         model.addAttribute("data",travelimpl.findbyId(placeId));
+        model.addAttribute("review", new ArrayList<>());
         model.addAttribute("bid", bid);
         return "explore";
     }

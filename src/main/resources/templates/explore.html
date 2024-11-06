@@ -32,6 +32,30 @@
             </ul>
         </div>
 
+        <!-- Reviews Section -->
+        <th:block th:if="${review != null and review.size() > 0}">
+            <div class="reviews-section">
+                <h2 class="section-title">User Reviews</h2>
+            <div th:if="${review.size() > 0}">
+                <div class="review" th:each="rev : ${review}">
+
+                    <div class="review-item">
+                        <strong>Username:</strong> <span th:text="${rev.username}">User Name</span>
+                    </div>
+                    <div class="review-item">
+                        <strong>Review:</strong> <span th:text="${rev.review}">Review comment goes here...</span>
+                    </div>
+                    <div class="review-item">
+                        <strong>Rating:</strong> <span th:text="${rev.rateing}">Rating</span>/5
+                    </div>
+                </div>
+            </div>
+            <div th:if="${review.size() == 0}">
+                <p>No reviews available for this destination.</p>
+            </div>
+        </div>
+        </th:block>
+
         <!-- Action Buttons Section -->
         <div class="action-buttons">
             <div th:if="${bid == 0}">

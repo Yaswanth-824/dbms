@@ -11,9 +11,9 @@
         <h1>TRIP PLANNER</h1>
         <nav>
             <ul>
-                <li><a href="/">HOME</a></li>
-                <li><a href="/place">place</a></li>
-                <li><a href="/about-us">about-us</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/place">Place</a></li>
+                <li><a href="/about-us">About-us</a></li>
                 
                 <!-- Conditionally display Login if not authenticated, Profile and Logout if authenticated -->
                 <li th:if="${check == null}">
@@ -26,11 +26,11 @@
                     <a href="/Booking">Booking</a>
                 </li>
                 <li th:if="${check != null}">
-                    <a href="/logout">logout</a>
+                    <a href="/logout">Logout</a>
                 </li>
                 <li>
                     <form action="/" method="get" class="search-form">
-                        <input type="text" name="query" placeholder="Search..." class="search-input" required>
+                        <input type="text" name="query" placeholder="Search..." class="search-input">
                         <button type="submit" class="search-button">Search</button>
                     </form>
                 </li>
@@ -40,9 +40,12 @@
     <main>
         <section class="posts">
             <h2>Available Trips</h2>
+
             <!-- Thymeleaf loop to display travel data -->
             <div th:each="place : ${places}">
                 <article>
+                    
+
                     <div class="trip-info">
                         <h2 th:text="${place.title}">Trip Title</h2>
                         <p class="tempit">Top Places in Trip:</p>
@@ -53,6 +56,7 @@
                         <p class="tempi" th:text="${place.Days}">Interests</p>
                         <a th:href="@{/place/{placeId}(placeId=${place.placeId})}" class="book-now">To Explore</a>
                     </div>
+               
                 </article>
             </div>
         </section>

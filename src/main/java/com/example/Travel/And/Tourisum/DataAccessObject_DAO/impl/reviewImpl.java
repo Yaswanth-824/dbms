@@ -57,12 +57,15 @@ public class reviewImpl implements reviewDao{
     @Override
     public void addReview(review review){
         try {
-            String sql = "Insert into reviews (username,placeId,description,rating) values (?,?,?,?)";
-            jdbcTemplate.update(sql,review.getUsername(),review.getPlaceId(),review.getReview(),2.5);
+            String sql = "Insert into reviews (username,placeId,description,rating,bid) values (?,?,?,?,?)";
+            jdbcTemplate.update(sql,review.getUsername(),review.getPlaceId(),review.getReview(),review.getRateing(),review.getBid());
             System.out.println("SuccesFully Inserted");
             
         } catch (DuplicateKeyException e) {
             System.out.println("Duplicate entry: " + e.getMessage());
+            String sql = "Update reviews set description =?,rating=? where bid =?";
+            jdbcTemplate.update(sql,review.getReview(),review.getRateing(),review.getBid());
+            System.out.println("SuccesFully Updated");
         }
         catch (DataAccessException e) {
         // Handle general Spring's data access exceptions

@@ -1,21 +1,19 @@
 package com.example.Travel.And.Tourisum.DataAccessObject_DAO.impl;
-
 import java.sql.*;
 import java.time.*;
 import java.util.*;
-
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.jdbc.BadSqlGrammarException;
-// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
 import com.example.Travel.And.Tourisum.DataAccessObject_DAO.booking;
 import com.example.Travel.And.Tourisum.models.bookings;
+
+
 
 @Repository
 public class bookingiml implements booking {
@@ -136,5 +134,26 @@ public class bookingiml implements booking {
             // e.printStackTrace();
             return new ArrayList<>();
         }
+    }
+    public boolean findBidUser(Integer bid){
+        try {
+            String sql3 = "select * from bookings where bid = ? and uid = ?";
+            int rows = jdbcTemplate.query(sql3,new bookingMapper(),bid,getUserName()).size();
+            return rows>0;
+        } catch (Exception e) {
+            System.err.println("SQL Error: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    public float placeCost(Integer bid){
+        try {
+            float cost = jdbcTemplate.queryForObject("Select cost from travelPlaces as t ,bookings as b where b.bid = ? AND t.placeId = b.placeId",float.class,bid);
+            System.out.println(cost+"place");
+            return cost;
+        } catch (Exception e) {
+
+        }
+        return 0.0f;
     }
 }
