@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Local database exports and application logs
+/myLog.sql
+/myLog/*.log
+/myLog/*.log.*

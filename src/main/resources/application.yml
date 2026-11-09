@@ -4,9 +4,9 @@ server:
 # To Connect with DataBase
 spring:
     datasource :
-        username : root
-        password : Lab@2024
-        url: jdbc:mysql://localhost:3306/Travel?createDatabaseIfNotExist=true
+        username : ${SPRING_DATASOURCE_USERNAME}
+        password : ${SPRING_DATASOURCE_PASSWORD}
+        url: ${SPRING_DATASOURCE_URL}
     servlet :
       multipart :
         enabled : true
@@ -15,7 +15,7 @@ spring:
     security :
       user :
         name : user
-        password : 1234
+        password : ${SPRING_SECURITY_USER_PASSWORD}
     # to directly Create a Table and Populate a Table
     sql:
       init :
